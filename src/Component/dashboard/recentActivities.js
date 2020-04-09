@@ -1,136 +1,117 @@
 import React from "react";
-import Badge from "../../Shared/component/badge";
 import { getRecentKPAModification, getKPAType } from "../../Shared/function";
 import {
   Box,
   Paper,
   Grid,
-  ButtonBase,
+  CardHeader,
   Avatar,
-  Typography
+  Typography,
+  Card,
+  CardContent
 } from "@material-ui/core";
-import TodayIcon from "@material-ui/icons/Today";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { makeStyles } from "@material-ui/core/styles";
+import { red, blue, green } from '@material-ui/core/colors';
 import Detail from "./profileDetail";
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
+const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    marginBottom: theme.spacing(1)
+    padding: theme.spacing(3),
+    background: 'transparent',
+    marginTop:'15px',
+    borderRadius: '0',
+    boxShadow: 'none',
+  },
+  topbox: {
+    marginLeft: '15px',
+    marginTop: '0',
+    padding: '20px',
+    background: blue.A400,
+    borderRadius: '3px',
+  },
+  whitecolor: {
+    color: '#fff',
+    width: '30px',
+    height: '30px',
+    margin: '4px 4px -10px',
+    textAlign: 'center',
+    lineHeight: '33px',
+  },
+  wholeContainer: {
+    background: '#fff',
+    borderRadius: '3px',
+  },
+  containertitle:{
+    color: '#3C4858',
+    fontWeight: "300",
+    marginLeft: '20px',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+  sidecard: {
+    boxShadow: 'none',
+    borderBottom: '1px solid rgba(224, 224, 224, 1)',
+    borderRadius: '0',
+  },
+  colorbar: {
+    padding: '3px',
+    width: '50%',
   },
   noRecentNotification: {
     background: "linear-gradient(60deg, #e11313f5, #f807072e)",
     marginTop: 5,
     padding: theme.spacing(2),
     margin: "auto",
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
   },
-  image: {
-    width: theme.spacing(3),
-    height: theme.spacing(3)
-  },
-  footerText: {
-    marginTop: 3
-  },
-  footer: {
-    background: "linear-gradient(60deg, #07f8f880, #c822f147)",
-    borderRadius: 9,
-    marginTop: 1
-  }
 }));
 
-const RecentActivities = props => {
+const RecentActivities = (props) => {
   const classes = useStyles();
 
   const recentNotification = {
     background: "linear-gradient(60deg, #ab47bc, #8e24aa)",
     boxShadow:
       "0 4px 20px 0 rgba(0, 0, 0,.14), 0 7px 10px -5px rgba(156, 39, 176,.4)",
-    width: "100%"
+    width: "100%",
   };
 
-  const getNotificationDetailsProps = (name, data1, data2) => {
-    return { name, data1, data2 };
-  };
-
-  const getCssForPaperBorder = index => {
-    switch (index) {
-      case 0:
-        return { borderLeft: "4px solid #eb8db4b3" };
-      case 1:
-        return { borderLeft: "4px solid #16db6eb3" };
-      case 2:
-        return { borderLeft: "4px solid #e5c903b3" };
-      case 3:
-        return { borderLeft: "4px solid #0329e5b3" };
-      default:
-        return { borderLeft: "4px solid #810adbb3" };
-    }
-  };
-
-  const appendData = recentModifiedKPA => {
+  const appendData = (recentModifiedKPA) => {
     return recentModifiedKPA.map((recentKPA, index) => {
       return (
-        <Paper
-          key={index}
-          elevation={3}
-          className={classes.paper}
-          style={getCssForPaperBorder(index)}
-        >
-          <Grid container spacing={2}>
-            <Detail
-              {...getNotificationDetailsProps(
-                recentKPA.title,
-                getKPAType(recentKPA.type),
-                recentKPA.description
-              )}
-            />
-          </Grid>
-          <Grid container spacing={2} className={classes.footer}>
-            <Grid item>
-              <ButtonBase>
+        <Grid item xs={12} sm={6} lg={12} key={index}>
+          <Card className={classes.sidecard} width="100%">
+            <CardHeader
+              pb={2}
+              avatar={
                 <Avatar
-                  className={classes.image}
-                  alt="Remy Sharp"
-                  src="./1.jpeg"
-                />
-              </ButtonBase>
-            </Grid>
-            <Grid item xs={12} sm container>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                className={classes.footerText}
-              >
-                {recentKPA.name}
+                  alt={recentKPA.name}
+                  src={"/images/" + recentKPA.name + ".jpg"}
+                  className={classes.avatar}
+                ></Avatar>
+              }
+              title={recentKPA.name}
+              subheader={new Date(recentKPA.modified_on).toLocaleDateString()}
+            />
+            <Box className={classes.colorbar} bgcolor={green} ml={2}></Box>
+            <CardContent>
+              <Typography className={classes.sidebarTitle} gutterBottom>
+                {recentKPA.title}
               </Typography>
-            </Grid>
-            <Grid item>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                className={classes.footerText}
-              >
-                {new Date(recentKPA.modified_on).toLocaleDateString()}
+              <Typography variant="body2" color="textSecondary" component="p">
+                {recentKPA.description}
               </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body2" color="textSecondary">
-                <TodayIcon />
-              </Typography>
-            </Grid>
-          </Grid>
-        </Paper>
+            </CardContent>
+          </Card>
+        </Grid>
       );
     });
   };
 
-  const noRecentActivities = content => {
+  const noRecentActivities = (content) => {
     return (
       <Paper className={classes.noRecentNotification} elevation={3}>
         <Grid container spacing={2}>
@@ -165,22 +146,7 @@ const RecentActivities = props => {
         </React.Fragment>
       );
     } else if (recentActivitiesLength > 0) {
-      if (recentActivitiesLength === 4) {
-        return (
-          <React.Fragment>{appendData(recentModifiedKPA)} </React.Fragment>
-        );
-      } else {
-        return (
-          <React.Fragment>
-            {appendData(recentModifiedKPA)}
-            {noRecentActivities(
-              "No more than " +
-                recentActivitiesLength +
-                " actvities in past 30 days"
-            )}
-          </React.Fragment>
-        );
-      }
+      return <React.Fragment>{appendData(recentModifiedKPA)} </React.Fragment>;
     } else {
       return (
         <React.Fragment>
@@ -191,10 +157,22 @@ const RecentActivities = props => {
   };
 
   return (
-    <div className={classes.root}>
-      <Badge name="Recent Notification" styles={recentNotification} />
-      {getDetails()}
-    </div>
+    <React.Fragment>
+      <Grid container item xs={12}>
+        <Box className={classes.wholeContainer}>
+          <Box>
+            <Box component="div" display="inline" className={classes.topbox}>
+              <NotificationsActiveIcon className={classes.whitecolor} />
+            </Box>
+            <Typography className={classes.containertitle} display="inline">
+              {" "}
+              Notifications{" "}
+            </Typography>
+          </Box>
+          <Paper className={classes.paper}>{getDetails()}</Paper>
+        </Box>
+      </Grid>
+    </React.Fragment>
   );
 };
 

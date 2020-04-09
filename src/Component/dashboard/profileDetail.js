@@ -1,34 +1,32 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
 const useStyles = makeStyles((theme) => ({
-    title: {
-        color: "#2196F3",
-    }
+  tabletext: {
+    fontSize: "0.875rem !important",
+  },
 }));
 
 const ProfileDetail = (props) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <Grid item xs container direction="column" spacing={2}>
-            <Grid item xs>
-                <Typography gutterBottom variant="subtitle1" style={{color: props.contentColor ? props.contentColor : "white"}}>
-                    {props.content}
-                </Typography>
-                <Typography gutterBottom variant="subtitle1" className={classes.title}>
-                    {props.name}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                    {props.data1}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                    {props.data2}
-                </Typography>
-            </Grid>
-        </Grid>
-    )
-}
+  return (
+    <React.Fragment>
+        <Typography color="textSecondary" className={classes.tabletext}>
+            {props.content}
+          </Typography>
+           <Typography color="textSecondary" className={classes.tabletext}>
+            {props.name}
+          </Typography>
+          <Typography color="textSecondary" className={classes.tabletext}>
+            {props.data1}
+          </Typography>
+          <Typography color="textSecondary" className={classes.tabletext}>
+            {props.data2}
+          </Typography>
+  </React.Fragment>
+  );
+};
 
 export default ProfileDetail;
